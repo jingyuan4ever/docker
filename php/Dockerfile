@@ -18,7 +18,6 @@ RUN apt-get update && \
 RUN docker-php-ext-install mcrypt
 
 # Install the PHP pdo_mysql extention
-RUN docker-php-ext-install mysqli \
+RUN docker-php-ext-install mysql \
+    && docker-php-ext-install mysqli \
     && docker-php-ext-install pdo_mysql
-
-RUN docker-php-ext-install mysql

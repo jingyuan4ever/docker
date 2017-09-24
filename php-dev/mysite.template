@@ -1,0 +1,21 @@
+server {
+    listen       ${NGINX_PORT};
+    server_name  ${NGINX_HOST};
+
+    #charset koi8-r;
+
+    #access_log  logs/host.access.log  main;
+    #root /etc/nginx/html/discuz;
+
+    location / {
+        index index.php;
+        autoindex on;
+    }
+
+    #proxy the php scripts to php-fpm
+    location ~ \.php$ {
+        fastcgi_index  index.php;
+        fastcgi_pass   php-fpm:9000;
+        include fastcgi_params;
+    }
+}

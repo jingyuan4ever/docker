@@ -5,7 +5,7 @@ server {
     #charset koi8-r;
 
     #access_log  logs/host.access.log  main;
-    #root /etc/nginx/html/discuz;
+    root /var/www/html;
 
     location / {
         index index.php;

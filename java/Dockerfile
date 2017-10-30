@@ -1,5 +1,5 @@
-# Version: 0.0.1
-FROM ubuntu:trusty
+# Version: 0.0.2
+FROM jingyuan4ever/ubuntu:latest
 MAINTAINER jingyuan
 
 RUN \
@@ -14,9 +14,5 @@ RUN \
 
 # Define commonly used JAVA_HOME variable
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
-
-# Chinese language
-RUN locale-gen zh_CN.UTF-8
-ENV LANG zh_CN.UTF-8
 
 CMD ["/bin/bash"]

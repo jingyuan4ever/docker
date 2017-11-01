@@ -22,8 +22,6 @@ RUN set -x \
 	&& tar -xvf /tmp/hadoop.tar.gz -C /opt/ \
 	&& rm /tmp/hadoop.tar.gz*
 
-
-
 # For spark
 ENV SPARK_VERSION 2.2.0
 ENV SPARK_URL http://www.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop2.7.tgz
@@ -38,9 +36,6 @@ RUN set -x \
 
 RUN apt-get install -y --no-install-recommends python-dev
 
-# clean
-RUN rm -rf /var/lib/apt/lists/*
-
 # Hadoop env
 RUN ln -s /opt/hadoop-$HADOOP_VERSION/etc/hadoop /etc/hadoop
 ENV HADOOP_HOME /opt/hadoop-$HADOOP_VERSION
@@ -51,5 +46,18 @@ ENV LD_LIBRARY_PATH=$HADOOP_HOME/lib/native
 RUN ln -s /opt/spark-$SPARK_VERSION-bin-hadoop2.7 /etc/spark
 ENV SPARK_HOME /opt/spark-$SPARK_VERSION-bin-hadoop2.7
 ENV PATH=$SPARK_HOME/bin/:$PATH
+
+# Install JDBC
+ENV JDBC_VERSION 5.1.44
+RUN curl -fSL "https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-java-$JDBC_VERSION.tar.gz" -o /tmp/jdbc.tar.gz \
+	&& tar -xvf /tmp/jdbc.tar.gz -C /tmp/ \
+	&& mkdir $SPARK_HOME/lib \
+	&& cp /tmp/mysql-connector-java-5.1.44/mysql-connector-java-$JDBC_VERSION-bin.jar $SPARK_HOME/lib/ \
+	&& rm -rf /tmp/jdbc.tar.gz /tmp/mysql-connector-java-$JDBC_VERSION
+
+ENV SPARK_CLASSPATH=$SPARK_HOME/lib/mysql-connector-java-$JDBC_VERSION-bin.jar:$SPARK_CLASSPATH
+
+# clean
+RUN rm -rf /var/lib/apt/lists/*
 
 CMD ["/bin/bash"]

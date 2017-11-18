@@ -1,0 +1,21 @@
+version: "3"
+services:
+ hadoop:
+  image: jingyuan4ever/hadoop
+  volumes:
+   - ./conf/spark-defaults.conf:/etc/spark/conf/spark-defaults.conf:ro
+   - ./conf/core-site.xml:/etc/hadoop/core-site.xml:ro
+   - ./conf/hdfs-site.xml:/etc/hadoop/hdfs-site.xml:ro
+   - /Users/didi/hadoop/:/root/
+  ports:
+   - 4040:4040 #spark job
+   - 9000:9000 #hdfs
+   - 18080:18080 #spark history
+   - 50030:50030 #name node
+   - 50070:50070
+  external_links:
+   - phpdev_db_1
+networks:
+  default:
+    external:
+      name: phpdev_default

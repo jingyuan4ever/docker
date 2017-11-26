@@ -6,11 +6,7 @@ server {
 
     #access_log  logs/host.access.log  main;
     root /var/www/html;
-
-    location / {
-        index index.php;
-        autoindex on;
-    }
+    index index.php;
 
     #proxy the php scripts to php-fpm
     location ~ \.php$ {

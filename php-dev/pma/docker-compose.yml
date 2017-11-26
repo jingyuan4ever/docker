@@ -7,14 +7,21 @@ services:
    - ./fastcgi_params:/etc/nginx/fastcgi_params:ro
    - /root/app/pma:/var/www/html/
   ports:
-   - 80:80
+   - 7999:80
   environment:
-   - NGINX_HOST=139.196.20.243
+   - NGINX_HOST=test.com
    - NGINX_PORT=80
   command: /bin/bash -c "envsubst < /etc/nginx/conf.d/mysite.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+  links:
+   - php-fpm
+ php-fpm:
+  image: jingyuan4ever/php
+  volumes:
+   - /root/app/pma:/var/www/html/
+   - ./php.ini:/usr/local/etc/php/conf.d/php.ini
   external_links:
-   - backend_php-fpm_1
+   - db_db_1
 networks:
   default:
     external:
-      name: backend_default
+      name: db_default

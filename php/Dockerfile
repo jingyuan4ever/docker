@@ -14,4 +14,4 @@ RUN apt-get update && \
         libssl-dev \
         libmcrypt-dev
 
-RUN docker-php-ext-install mcrypt mysql mysqli pdo pdo_mysql
+RUN docker-php-ext-install mcrypt mysql mysqli pdo pdo_mysql zip
